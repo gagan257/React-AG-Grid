@@ -1,62 +1,34 @@
-import React, { useState } from "react";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import UserForm from "./components/UserForm";
+import React, { useState } from 'react';
+import UserForm from './components/UserForm';
+import UserTable from './components/UserTable';
 
 const App = () => {
   const [users, setUsers] = useState([]);
-  const [editingUser, setEditingUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
 
-  const addUser = (user) => {
-    if (editingUser) {
-      setUsers(users.map((u) => (u.email === user.email ? user : u)));
-      setEditingUser(null);
+  const handleSave = (user) => {
+    if (user.id) {
+      setUsers(prevUsers => prevUsers.map(u => (u.id === user.id ? user : u)));
     } else {
-      setUsers([...users, user]);
+      user.id = Date.now();
+      setUsers(prevUsers => [...prevUsers, user]);
     }
+    setSelectedUser(null);
   };
 
-  const deleteUser = (email) => {
-    setUsers(users.filter((user) => user.email !== email));
+  const handleEdit = (updatedUser) => {
+    setUsers(prevUsers => prevUsers.map(user => (user.id === updatedUser.id ? updatedUser : user)));
   };
 
-  const editUser = (user) => {
-    setEditingUser(user);
+  const handleDeleteSelected = (ids) => {
+    setUsers(prevUsers => prevUsers.filter(user => !ids.includes(user.id)));
   };
-
-  const columns = [
-    { headerName: "Name", field: "name", editable: true, filter: true },
-    { headerName: "Email", field: "email", editable: true, filter: true },
-    { headerName: "Address", field: "address", editable: true, filter: true },
-    { headerName: "Phone No", field: "phone", editable: true, filter: true },
-  ];
 
   return (
-    <div className="App container text-center">
-      <h1 className="text-center mb-4 mt-3">User Management</h1>
-      <UserForm user={editingUser} onSave={addUser} />
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-12 d-flex justify-content-center">
-            <div
-              className="ag-theme-alpine"
-              style={{ height: 400, width: 800 }}
-            >
-              <AgGridReact
-                rowData={users}
-                columnDefs={columns}
-                defaultColDef={{
-                  flex: 1,
-                  minWidth: 150,
-                  editable: true,
-                  filter: true,
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="container mt-4">
+      <h1>User Management</h1>
+      <UserForm user={selectedUser} onSave={handleSave} />
+      <UserTable users={users} onEdit={handleEdit} onDeleteSelected={handleDeleteSelected} />
     </div>
   );
 };
