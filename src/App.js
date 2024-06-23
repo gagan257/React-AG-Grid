@@ -30,6 +30,29 @@ const App = () => {
     { headerName: "Email", field: "email", editable: true, filter: true },
     { headerName: "Address", field: "address", editable: true, filter: true },
     { headerName: "Phone No", field: "phone", editable: true, filter: true },
+    {
+      headerName: "Actions",
+      field: "id",
+      cellRendererFramework: (params) => (
+        <div>
+          <button
+            variant="outlined"
+            color="primary"
+            className="btn"
+            onClick={() => deleteUser(params.data)}
+          >
+            Update
+          </button>
+          <button
+            variant="outlined"
+            color="secondary"
+            onClick={() => deleteUser(params.value)}
+          >
+            Delete
+          </button>
+        </div>
+      ),
+    },
   ];
 
   return (
