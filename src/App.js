@@ -4,8 +4,6 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import UserForm from "./components/UserForm";
 
-// src/App.js
-
 const App = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
@@ -44,20 +42,29 @@ const App = () => {
   ];
 
   return (
-    <div className="App">
-      <h1>User Management</h1>
+    <div className="App container text-center">
+      <h1 className="text-center mb-4 mt-3">User Management</h1>
       <UserForm user={editingUser} onSave={addUser} />
-      <div className="ag-theme-alpine" style={{ height: 400, width: 800 }}>
-        <AgGridReact
-          rowData={users}
-          columnDefs={columns}
-          defaultColDef={{
-            flex: 1,
-            minWidth: 150,
-            editable: true,
-            filter: true,
-          }}
-        />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-12 d-flex justify-content-center">
+            <div
+              className="ag-theme-alpine"
+              style={{ height: 400, width: 800 }}
+            >
+              <AgGridReact
+                rowData={users}
+                columnDefs={columns}
+                defaultColDef={{
+                  flex: 1,
+                  minWidth: 150,
+                  editable: true,
+                  filter: true,
+                }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
