@@ -30,15 +30,6 @@ const App = () => {
     { headerName: "Email", field: "email", editable: true, filter: true },
     { headerName: "Address", field: "address", editable: true, filter: true },
     { headerName: "Phone No", field: "phone", editable: true, filter: true },
-    {
-      headerName: "Actions",
-      field: "actions",
-      cellRendererFramework: (params) => (
-        <div>
-          <button onClick={() => deleteUser(params.data.email)}>Delete</button>
-        </div>
-      ),
-    },
   ];
 
   return (
