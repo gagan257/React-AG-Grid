@@ -16,6 +16,12 @@ const UserForm = ({ user, onSave, onDelete }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Only allow numbers for the phone field
+    if (name === "phone" && !/^\d*$/.test(value)) {
+      return;
+    }
+
     setFormData({ ...formData, [name]: value });
   };
 
@@ -80,6 +86,7 @@ const UserForm = ({ user, onSave, onDelete }) => {
               maxLength={10}
               required
               className="form-control"
+              pattern="\d*"
             />
           </div>
         </div>
